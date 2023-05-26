@@ -32,7 +32,7 @@ inquirer
     },    
     {type:'input',
     name:'userProjectContribution',
-    message:'Include guidelines if you created an application or package and would like other developers to contribute to it. An example of where they can contribute is the [Contributor Covenant](https://www.contributor-covenant.org/).',
+    message:'Include guidelines if you created an application or package and would like other developers to contribute to it.',
    },
    {type:'input',
    name:'userProjectTests',
@@ -47,16 +47,31 @@ inquirer
  message:'Enter your email address',
 },
 ]).then(response=>{
-    const md =`# Project Title ${userProjectTitle}\n
-    ## Description ${userDescription}\n
-    ## Table of Contents ${userTableContents}\n
-    ## Installation ${userInstallation}\n
-    ## Usage ${userProjectUsage}\n
-    ## License ${userLicense}\n
-    ## Contributing ${userProjectContribution}\n
-    ## Tests ${userProjectTests}\n
+    const md =`# Project Title 
+    ${response.userProjectTitle}
+    ## Description 
+    ${response.userDescription}
+
+    ## Table of Contents
+    ${response.userTableContents}
+
+    ## Installation 
+    ${response.userInstallation}
+
+    ## Usage 
+    ${response.userProjectUsage}
+
+    ## License 
+    ${response.userLicense}
+
+    ## Contributing 
+    ${response.userProjectContribution}
+
+    ## Tests 
+    ${response.userProjectTests}
+    
     ## Questions
-    If you have any questions please feel free to reach out: ![GitHub Username](${userGithub}) or ![Email Address](${userEmailAddress})`
+    If you have any questions please feel free to reach out: GitHub Username(${response.userGithub}) or Email Address(${response.userEmailAddress})`
     fs.writeFile("README.md",md,(error)=>{
       if(error){
          console.log(error);
