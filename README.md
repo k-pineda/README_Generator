@@ -3,7 +3,7 @@
 
   ## Description
   
-  This project is a command-line application that generates a markdown README file. Streamlining the process of creating documentation for GitHub projects. By obtaining the users input and utilizing the Inquirer package, the application generates a README with sections such as Description, Installation, Usage, License, Contributing, among other README sections. 
+  This project is a command-line application that generates a markdown README file. Streamlining the process of creating documentation for GitHub projects. By obtaining the users input and utilizing the Inquirer package, the application generates a README with sections such as Description, Installation, Usage, License, Contributing, among other README sections.
   ## Table of Contents
 
   - [Installation](#userInstallation)
@@ -12,12 +12,17 @@
   
   - [License](#license)
 
+  - [How to Contribute](#userProjectContribution)
+
+  - [Tests](#userProjectTests)
+
   - [Questions](#userGithub)
 
   ## Installation
 
   To install necessary dependencies, run the following command:
-  npm i inquirer@8.2.4
+
+    npm i inquirer@8.2.4
 
   ## Usage
 
@@ -27,7 +32,17 @@
 
   This project is licensed under the APACHE 2.0 License.
 
-  For more informations, please visit: [License Link](https://opensource.org/licenses/Apache-2.0) 
+  For more informations, please visit: [License Link](https://opensource.org/licenses/Apache-2.0)
+
+  ## How to Contribute
+
+    N/A
+
+  ## Tests
+
+    To run tests, run the following command:
+
+    N/A
 
   ## Questions
 
