@@ -1,10 +1,9 @@
 // TODO: Include packages needed for this application
 const fs=require("fs");
 const inquirer = require('inquirer')
-let badge;
+const generateMarkdown = require('./utils/generateMarkdown');
 
-inquirer
-.prompt([
+const questions = [
     {
     type:"input",
     name:"userProjectTitle",
@@ -28,9 +27,9 @@ inquirer
      message:'Provide instructions and examples for use of application.',
     },
     {type:'list',
-     name:'userLicense',
+     name:'license',
      message:'Select license if used, if not used selected last option.',
-     choices: ['Apache(https://opensource.org/licenses/Apache-2.0)', 'Boost(https://www.boost.org/LICENSE_1_0.txt)', 'GNU(https://www.gnu.org/licenses/gpl-3.0)', 'MIT(https://opensource.org/licenses/MIT)', 'IBM(https://opensource.org/licenses/IPL-1.0)', 'ISC(https://opensource.org/licenses/ISC)'],
+     choices: ['APACHE 2.0', 'GPL 3.0', 'MIT', 'BSD 3', 'None'],
     },    
     {type:'input',
     name:'userProjectContribution',
@@ -47,69 +46,26 @@ inquirer
  {type:'input',
  name:'userEmailAddress',
  message:'Enter your email address',
-},
-]).then(response=>{
-    if (response.license === 'Apache(https://opensource.org/licenses/Apache-2.0)') {
-        badge = `![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)`
-     } else if (response.license === 'Boost(https://www.boost.org/LICENSE_1_0.txt)') {
-        badge = `![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)`
-     } else if (response.license === 'GNU(https://www.gnu.org/licenses/gpl-3.0)') {
-        badge = `![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)`
-     } else if (response.license === 'MIT(https://opensource.org/licenses/MIT)') {
-        badge = `![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)`
-     } else if (response.license === 'IBM(https://opensource.org/licenses/IPL-1.0)') {
-        badge = `![License: IPL 1.0](https://img.shields.io/badge/License-IPL_1.0-blue.svg)`
-     } else {
-        badge = `![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)`
-     }
-     const readme = `# ${response.userProjectTitle} ${badge}
+}];
 
-     ## Table of Contents
-
-     [Description](#userDescription)\n
-     [Installation](#userInstallation)\n
-     [Usage](#userProjectUsage)\n
-     [License](#userLicense)\n
-     [Contributing](#userProjectContribution)\n
-     [Test](#userProjectTests)\n
-     [Questions](#userGithub)\n
-     
-     
-     ## Description
-     
-     ${response.userDescription}\n
-     
-     ## Installation
-     
-     ${response.userInstallation}\n
-     
-     ## Usage
-     
-     ${response.userProjectUsage}\n
-     
-     ## License 
-     
-     ${response.userLicense}\n
-     
-     ## Contributing
-     
-     ${response.userProjectContribution}\n
-     
-     ## Tests
-     
-     ${response.userProjectTests}\n
-     
-     ## Questions
-     
-     GitHub Username/Link to profile:  ${response.userGithub}\n 
-     
-     Contact Info: ${response.userEmailAddress}\n`
-        fs.writeFile('README.md', readme, error => {
-           if (error) {
-              console.log(error)
-           } else {
-              console.log('responses saved successfully')
-           }
+// TODO: Create a function to write README file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => 
+    err ? console.error(err) : console.log('README file generated successfully!'));
+};
+  
+// TODO: Create a function to initialize app
+function init() {
+    inquirer.prompt(questions)
+        .then((data) => {
+            writeToFile('README.md', generateMarkdown({...data}));
+            console.log('Generating README...');
+            console.log(data);
         })
-     
-     })
+}
+
+// Function call to initialize app
+init();
+
+ 
+      
