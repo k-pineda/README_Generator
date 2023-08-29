@@ -1,67 +1,24 @@
 // TODO: Include packages needed for this application
 const fs=require("fs");
 const inquirer = require('inquirer')
-const generateMarkdown = require('./utils/generateMarkdown');
 let badge;
 
-// License function and  if/else section here 
-//const getLicense=(value)=> value ? `[![License: AGPL v3](https://img.shields.io/badge/License-${value}%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)` : `no license`
-
-function getlicense(license){
-    switch(license){
-        case "MIT":
-            return  ``;
-        case "GNU":
-            return ``;
-            
-    }
-}
-switch(action){
-    case "MIT":
-        mitfunction()
-        break;
-        //etc
-}
-
-const add = (a, b) => a + b
-
-
-function getLicense(value) {
-  if (value === "GNU AGPLv3") { 
-      return "[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)";
-  } else if (value === "GNU GPLv3") {
-      return "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)";
-  } else if (value === "GNU LGPLv3") {
-      return "[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)";
-  } else if (value === "Apache 2.0") {
-      return "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)";
-  } else if (value === "Boost Software 1.0") {
-      return "[![License](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)";
-  } else if (value === "MIT") {
-      return "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
-  } else {
-      return "[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)";
-  }
-}
-
-
-const inquirer=require("inquirer");
-const generateMarkdown = require("./utils/generateMarkdown");
 inquirer
-.prompt([{
+.prompt([
+    {
     type:"input",
     name:"userProjectTitle",
     message:"What is your project title?",
-},
+    },
 
      { type:'input',
      name:'userDescription',
      message:"Provide a short description explaining the what, why, and how of your project.",
      },
-     { type:'input',
-     name:'userTableContents',
-     message:'Add a table of contents to make it easy for users to find what they need.',
-     },
+    //  { type:'input',
+    //  name:'userTableContents',
+    //  message:'Add a table of contents to make it easy for users to find what they need.',
+    //  },
      {type:'input',
      name:'userInstallation',
      message:'What are the steps required to install your project?',
@@ -73,8 +30,7 @@ inquirer
     {type:'list',
      name:'userLicense',
      message:'Select license if used, if not used selected last option.',
-     choices:['Apache','GNU','MIT'],
-    //  when: `true`
+     choices: ['Apache(https://opensource.org/licenses/Apache-2.0)', 'Boost(https://www.boost.org/LICENSE_1_0.txt)', 'GNU(https://www.gnu.org/licenses/gpl-3.0)', 'MIT(https://opensource.org/licenses/MIT)', 'IBM(https://opensource.org/licenses/IPL-1.0)', 'ISC(https://opensource.org/licenses/ISC)'],
     },    
     {type:'input',
     name:'userProjectContribution',
@@ -93,21 +49,67 @@ inquirer
  message:'Enter your email address',
 },
 ]).then(response=>{
-  // if (response.userLicense.choices===Apache)
-  // {
-  //   badge=`![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)`
-  // }
-    fs.writeFile("README.md",md,(error)=>{
-      if(error){
-         console.log(error);
-      }else{
-         console.log("md file generated successfully!")
-      }
-    })
-})
+    if (response.license === 'Apache(https://opensource.org/licenses/Apache-2.0)') {
+        badge = `![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)`
+     } else if (response.license === 'Boost(https://www.boost.org/LICENSE_1_0.txt)') {
+        badge = `![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)`
+     } else if (response.license === 'GNU(https://www.gnu.org/licenses/gpl-3.0)') {
+        badge = `![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)`
+     } else if (response.license === 'MIT(https://opensource.org/licenses/MIT)') {
+        badge = `![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)`
+     } else if (response.license === 'IBM(https://opensource.org/licenses/IPL-1.0)') {
+        badge = `![License: IPL 1.0](https://img.shields.io/badge/License-IPL_1.0-blue.svg)`
+     } else {
+        badge = `![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)`
+     }
+     const readme = `# ${response.userProjectTitle} ${badge}
 
-// TODO: Create a function to initialize app
-function init() {}
+     ## Table of Contents
 
-// Function call to initialize app
-init();
+     [Description](#userDescription)\n
+     [Installation](#userInstallation)\n
+     [Usage](#userProjectUsage)\n
+     [License](#userLicense)\n
+     [Contributing](#userProjectContribution)\n
+     [Test](#userProjectTests)\n
+     [Questions](#userGithub)\n
+     
+     
+     ## Description
+     
+     ${response.userDescription}\n
+     
+     ## Installation
+     
+     ${response.userInstallation}\n
+     
+     ## Usage
+     
+     ${response.userProjectUsage}\n
+     
+     ## License 
+     
+     ${response.userLicense}\n
+     
+     ## Contributing
+     
+     ${response.userProjectContribution}\n
+     
+     ## Tests
+     
+     ${response.userProjectTests}\n
+     
+     ## Questions
+     
+     GitHub Username/Link to profile:  ${response.userGithub}\n 
+     
+     Contact Info: ${response.userEmailAddress}\n`
+        fs.writeFile('README.md', readme, error => {
+           if (error) {
+              console.log(error)
+           } else {
+              console.log('responses saved successfully')
+           }
+        })
+     
+     })
